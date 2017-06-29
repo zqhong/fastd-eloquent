@@ -76,10 +76,10 @@ class DemoModel extends Model
 ```
 
 ## 参考
-[Laravel - Database: Query Builder](https://laravel.com/docs/5.4/queries)
-[Laravel - Database: Pagination](https://laravel.com/docs/5.4/pagination)
-[Laravel - Eloquent: Getting Started](https://laravel.com/docs/5.4/eloquent)
-[Laravel - Eloquent: Collections](https://laravel.com/docs/5.4/eloquent-collections)
-[Laravel Cheat Sheet](http://cheats.jesse-obrien.ca/)
-[Laravel 5.1 LTS 速查表](https://cs.laravel-china.org/)
-[Using Eloquent with Slim](https://www.slimframework.com/docs/cookbook/database-eloquent.html)
+* [Laravel - Database: Query Builder](https://laravel.com/docs/5.4/queries)
+* [Laravel - Database: Pagination](https://laravel.com/docs/5.4/pagination)
+* [Laravel - Eloquent: Getting Started](https://laravel.com/docs/5.4/eloquent)
+* [Laravel - Eloquent: Collections](https://laravel.com/docs/5.4/eloquent-collections)
+* [Laravel Cheat Sheet](http://cheats.jesse-obrien.ca/)
+* [Laravel 5.1 LTS 速查表](https://cs.laravel-china.org/)
+* [Using Eloquent with Slim](https://www.slimframework.com/docs/cookbook/database-eloquent.html)
