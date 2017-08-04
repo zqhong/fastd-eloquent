@@ -75,11 +75,11 @@ class DemoModel extends Model
 }
 ```
 
-## 参考
+## 其他资源
+如果你对在其他框架中使用 Eloquent 感兴趣，请参考 Slim 的这篇文章 - [Using Eloquent with Slim](https://www.slimframework.com/docs/cookbook/database-eloquent.html)。
+
+如果你对 Eloquent 不熟悉，请阅读下面的资料。
 * [Laravel - Database: Query Builder](https://laravel.com/docs/5.4/queries)
 * [Laravel - Database: Pagination](https://laravel.com/docs/5.4/pagination)
 * [Laravel - Eloquent: Getting Started](https://laravel.com/docs/5.4/eloquent)
 * [Laravel - Eloquent: Collections](https://laravel.com/docs/5.4/eloquent-collections)
-* [Laravel Cheat Sheet](http://cheats.jesse-obrien.ca/)
-* [Laravel 5.1 LTS 速查表](https://cs.laravel-china.org/)
-* [Using Eloquent with Slim](https://www.slimframework.com/docs/cookbook/database-eloquent.html)
