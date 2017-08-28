@@ -20,6 +20,6 @@
     "illuminate/pagination": "^5.4",
     "illuminate/support": "^5.4",
     "fastd/container": "^3.0",
-    "fastd/config": "^3.1"
+    "fastd/config": "^3.0"
   }
 }
