@@ -75,6 +75,25 @@ class DemoModel extends Model
 }
 ```
 
+## 分页
+### 分页的简单使用
+```php
+<?php
+$perPage = 10;
+$columns = ['*'];
+$pageName = 'page';
+
+$paginator = YourModel::query()->paginate($perPage, $columns, $pageName);
+$data = $paginator->toArray();
+
+// 注：page 参数（当前页）会自动从 $_GET 或 $_POST 中的 page 参数自动获取，不需要单独设置。
+// 参考代码
+//LengthAwarePaginator::currentPageResolver(function () {
+//    return (int)Arr::get(array_merge($_GET, $_POST), 'page', 1);
+//});
+```
+
+
 ## 其他资源
 如果你对在其他框架中使用 Eloquent 感兴趣，请参考 Slim 的这篇文章 - [Using Eloquent with Slim](https://www.slimframework.com/docs/cookbook/database-eloquent.html)。
 

@@ -6,6 +6,7 @@ use FastD\Config\Config;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
 /**
@@ -40,6 +41,12 @@ class EloquentServiceProvider implements ServiceProviderInterface
         $this->capsule->bootEloquent();
 
         $container['eloquent_db'] = $this->capsule;
+
+        // 分页设置
+        // 1. 设置 page 参数（当前页）
+        LengthAwarePaginator::currentPageResolver(function () {
+            return (int)Arr::get(array_merge($_GET, $_POST), 'page', 1);
+        });
     }
 
     protected function addConnection($dbName, $dbConfig)
