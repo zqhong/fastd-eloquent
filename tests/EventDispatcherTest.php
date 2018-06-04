@@ -6,7 +6,7 @@ use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Database\Events\TransactionCommitted;
 use Illuminate\Events\Dispatcher;
 
-class EventTest extends TestCase
+class EventDispatcherTest extends TestCase
 {
     /**
      * @throws \Exception
