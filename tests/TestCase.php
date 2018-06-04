@@ -58,6 +58,9 @@ class TestCase extends BaseTestCase
         $eloquentDb = $app->get('eloquent_db');
         $connection = $eloquentDb->getConnection('default');
 
+        $connection
+            ->table('posts')
+            ->delete();
         $connection->disconnect();
 //        $connection->getSchemaBuilder()->drop('posts');
     }
