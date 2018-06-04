@@ -6,6 +6,7 @@ use FastD\Config\Config;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -46,6 +47,11 @@ class EloquentServiceProvider implements ServiceProviderInterface
         LengthAwarePaginator::currentPageResolver(function () {
             return (int)Arr::get(array_merge($_GET, $_POST), 'page', 1);
         });
+
+        // event dispatcher 设置
+        $eventDispatcher = new Dispatcher();
+        $this->capsule->setEventDispatcher($eventDispatcher);
+        $container['eloquent_event_dispatcher'] = $eventDispatcher;
     }
 
     protected function addConnection($dbName, $dbConfig)
