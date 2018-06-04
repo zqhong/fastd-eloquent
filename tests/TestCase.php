@@ -41,6 +41,7 @@ class TestCase extends BaseTestCase
         $connection = $eloquentDb->getConnection('default');
         $this->connection = $connection;
 
+        $connection->getSchemaBuilder()->dropIfExists('posts');
         $connection->getSchemaBuilder()->create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('author');
@@ -61,7 +62,7 @@ class TestCase extends BaseTestCase
         $connection
             ->table('posts')
             ->delete();
+        $connection->getSchemaBuilder()->dropIfExists('posts');
         $connection->disconnect();
-//        $connection->getSchemaBuilder()->drop('posts');
     }
 }

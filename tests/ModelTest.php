@@ -34,14 +34,31 @@ class ModelTest extends TestCase
             ->where('title', 'title')
             ->firstOrFail();
         $this->assertInstanceOf(PostModel::class, $post);
-        $this->assertEmpty('author', $post['author']);
-        $this->assertEmpty('title', $post['title']);
-        $this->assertEmpty('content', $post['content']);
+        $this->assertEquals('author', $post['author']);
+        $this->assertEquals('title', $post['title']);
+        $this->assertEquals('content', $post['content']);
         $this->assertGreaterThan(0, $post['created_at']);
         $this->assertGreaterThan(0, $post['updated_at']);
 
         // test update
+        $currentTimestamp = time();
+        $updateStatus = $post->update([
+            'updated_at' => $currentTimestamp,
+        ]);
+        $post = PostModel::query()
+            ->where('title', 'title')
+            ->firstOrFail();
+        $this->assertTrue($updateStatus);
+        $this->assertEquals($currentTimestamp, $post['updated_at']);
 
         // test delete
+        $deletedCnt = PostModel::query()
+            ->where('title', 'title')
+            ->delete();
+        $this->assertEquals(1, $deletedCnt);
+        $post = PostModel::query()
+            ->where('title', 'title')
+            ->first();
+        $this->assertEmpty($post);
     }
 }
