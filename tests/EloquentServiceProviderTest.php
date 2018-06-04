@@ -4,7 +4,6 @@ namespace Zqhong\FastdEloquent\Test;
 
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Connection;
-use PHPUnit\Framework\TestCase;
 
 /**
  * 服务提供者测试
