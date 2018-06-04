@@ -42,8 +42,7 @@ class EloquentServiceProvider implements ServiceProviderInterface
 
         $container['eloquent_db'] = $this->capsule;
 
-        // 分页设置
-        // 1. 设置 page 参数（当前页）
+        // 分页设置：设置 page 为1
         LengthAwarePaginator::currentPageResolver(function () {
             return (int)Arr::get(array_merge($_GET, $_POST), 'page', 1);
         });
