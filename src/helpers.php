@@ -2,6 +2,8 @@
 
 if (!function_exists('eloquent_db')) {
     /**
+     * 获取数据库连接实例
+     *
      * @param string $name
      * @return \Illuminate\Database\Connection
      */
@@ -13,7 +15,7 @@ if (!function_exists('eloquent_db')) {
 
 if (!function_exists('eloquent_event_dispatcher')) {
     /**
-     * @return \Illuminate\Database\Connection
+     * @return \Illuminate\Events\Dispatcher
      */
     function eloquent_event_dispatcher()
     {
