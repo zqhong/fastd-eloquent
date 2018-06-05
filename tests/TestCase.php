@@ -4,18 +4,12 @@ namespace Zqhong\FastdEloquent\Test;
 
 use FastD\Config\Config;
 use Illuminate\Database\Capsule\Manager;
-use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Blueprint;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Zqhong\FastdEloquent\EloquentServiceProvider;
 
 class TestCase extends BaseTestCase
 {
-    /**
-     * @var Connection
-     */
-    protected $connection;
-
     protected function setUp()
     {
         $app = new Application();
@@ -36,13 +30,8 @@ class TestCase extends BaseTestCase
         $provider->register($app);
 
         // 创建一张 Post 表用于测试
-        /** @var Manager $eloquentDb */
-        $eloquentDb = $app->get('eloquent_db');
-        $connection = $eloquentDb->getConnection('default');
-        $this->connection = $connection;
-
-        $connection->getSchemaBuilder()->dropIfExists('posts');
-        $connection->getSchemaBuilder()->create('posts', function (Blueprint $table) {
+        Manager::schema()->dropIfExists('posts');
+        Manager::schema()->create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('author');
             $table->string('title');
@@ -54,15 +43,8 @@ class TestCase extends BaseTestCase
 
     protected function tearDown()
     {
-        $app = Application::$app;
-        /** @var Manager $eloquentDb */
-        $eloquentDb = $app->get('eloquent_db');
-        $connection = $eloquentDb->getConnection('default');
-
-        $connection
-            ->table('posts')
-            ->delete();
-        $connection->getSchemaBuilder()->dropIfExists('posts');
-        $connection->disconnect();
+        Manager::table('posts')->delete();
+        Manager::schema()->dropIfExists('posts');
+        Manager::connection()->disconnect();
     }
 }

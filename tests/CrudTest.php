@@ -2,13 +2,14 @@
 
 namespace Zqhong\FastdEloquent\Test;
 
+use Illuminate\Database\Capsule\Manager;
+
 class CrudTest extends TestCase
 {
     public function testCrud()
     {
         // test create
-        $this
-            ->connection
+        Manager::connection()
             ->table('posts')
             ->insert([
                 'author' => 'author',
@@ -19,8 +20,7 @@ class CrudTest extends TestCase
             ]);
 
         // test read
-        $post = $this
-            ->connection
+        $post = Manager::connection()
             ->table('posts')
             ->where('title', 'title')
             ->first();
@@ -31,8 +31,7 @@ class CrudTest extends TestCase
         $this->assertGreaterThan(0, $post->updated_at);
 
         // test update
-        $this
-            ->connection
+        Manager::connection()
             ->table('posts')
             ->where('title', 'title')
             ->update([
@@ -42,8 +41,7 @@ class CrudTest extends TestCase
                 'created_at' => time(),
                 'updated_at' => time(),
             ]);
-        $post2 = $this
-            ->connection
+        $post2 = Manager::connection()
             ->table('posts')
             ->where('title', 'title2')
             ->first();
@@ -54,13 +52,11 @@ class CrudTest extends TestCase
         $this->assertGreaterThan(0, $post2->updated_at);
 
         // test delete
-        $this
-            ->connection
+        Manager::connection()
             ->table('posts')
             ->where('title', 'title2')
             ->delete();
-        $post3 = $this
-            ->connection
+        $post3 = Manager::connection()
             ->table('posts')
             ->where('title', 'title2')
             ->first();

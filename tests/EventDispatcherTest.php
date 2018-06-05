@@ -2,6 +2,7 @@
 
 namespace Zqhong\FastdEloquent\Test;
 
+use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Database\Events\TransactionCommitted;
 use Illuminate\Events\Dispatcher;
@@ -28,15 +29,11 @@ class EventDispatcherTest extends TestCase
         $this->assertEquals(0, $triggerCnt);
 
         // beganTransaction event
-        $this
-            ->connection
-            ->beginTransaction();
+        Manager::connection()->beginTransaction();
         $this->assertEquals(1, $triggerCnt);
 
         // committed event
-        $this
-            ->connection
-            ->commit();
+        Manager::connection()->commit();
         $this->assertEquals(2, $triggerCnt);
     }
 }
