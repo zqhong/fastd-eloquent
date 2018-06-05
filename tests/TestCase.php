@@ -43,7 +43,6 @@ class TestCase extends BaseTestCase
 
     protected function tearDown()
     {
-        Manager::table('posts')->delete();
         Manager::schema()->dropIfExists('posts');
         Manager::connection()->disconnect();
     }

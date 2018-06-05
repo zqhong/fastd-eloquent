@@ -1,9 +1,9 @@
 # fastD Eloquent
-使用 Eloquent 替换 fastD 自带的 Medoo
+使用 Eloquent 替换 fastD 自带的 [Medoo](https://medoo.in/)
 
 ## 安装
 ```bash
-$ composer require zqhong/fastd-eloquent
+$ composer require -vvv zqhong/fastd-eloquent
 ```
 
 ## 配置
@@ -18,11 +18,31 @@ return [
 ];
 ```
 
+修改配置文件 `.env.yml`，添加如下信息：
+```yaml
+database:
+    default:
+        adapter: db_adapter
+        name: db_name
+        host: db_host
+        user: db_username
+        pass: db_password
+        charset: db_charset
+        port: db_port
+        prefix: db_prefix
+```
+
+其中，`driver` 的可选值为：`mysql`、`pgsql`、`sqlite` 和 `sqlsrv`。
+
 ## 直接使用
 ```php
 <?php
+<?php
+
+use Illuminate\Database\Capsule\Manager;
+
 // create
-eloquent_db('default')
+Manager::connection('default')
     ->table('demo')
     ->insert([
         'content' => 'hello world',
@@ -30,7 +50,7 @@ eloquent_db('default')
 
 // read
 // 参数一可省略，默认值为 default
-eloquent_db()
+Manager::connection('default')
     ->table('demo')
     ->where('id', 1)
     ->where('created_at', '<=', time())
@@ -40,7 +60,7 @@ eloquent_db()
     ]);
 
 // update
-eloquent_db()
+Manager::connection('default')
     ->table('demo')
     ->where('id', 1)
     ->update([
@@ -48,10 +68,11 @@ eloquent_db()
     ]);
 
 // delete
-eloquent_db()
+Manager::connection('default')
     ->table('demo')
     ->where('id', 1)
     ->delete();
+
 ```
 
 ## 配置 Model 使用
