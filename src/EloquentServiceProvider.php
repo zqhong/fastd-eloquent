@@ -9,6 +9,7 @@ use Illuminate\Database\Capsule\Manager;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Zqhong\FastdEloquent\Database\ConnectionFactory;
 
 /**
  * Class EloquentServiceProvider
@@ -52,6 +53,21 @@ class EloquentServiceProvider implements ServiceProviderInterface
         $eventDispatcher = new Dispatcher();
         $this->capsule->setEventDispatcher($eventDispatcher);
         $container['eloquent_event_dispatcher'] = $eventDispatcher;
+
+        // 扩展
+        $connFactory = new ConnectionFactory($this->capsule->getContainer());
+        $this
+            ->capsule
+            ->getDatabaseManager()
+            ->extend('mysql', function (array $config, $name = null) use ($connFactory) {
+                return $connFactory->make($config, $name);
+            });
+        $this
+            ->capsule
+            ->getDatabaseManager()
+            ->extend('sqlite', function (array $config, $name = null) use ($connFactory) {
+                return $connFactory->make($config, $name);
+            });
     }
 
     protected function addConnection($dbName, $dbConfig)
