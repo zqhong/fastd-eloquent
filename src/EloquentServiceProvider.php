@@ -24,8 +24,9 @@ class EloquentServiceProvider implements ServiceProviderInterface
     protected $capsule;
 
     /**
+     * 注册 Eloquent 服务
+     *
      * @param Container $container
-     * @return mixed
      */
     public function register(Container $container)
     {
@@ -41,33 +42,55 @@ class EloquentServiceProvider implements ServiceProviderInterface
 
         $this->capsule->setAsGlobal();
         $this->capsule->bootEloquent();
-
         $container['eloquent_db'] = $this->capsule;
 
-        // 分页设置：设置 page 为1
-        LengthAwarePaginator::currentPageResolver(function () {
-            return (int)Arr::get(array_merge($_GET, $_POST), 'page', 1);
-        });
+        $this->setPageResolver($container);
+        $this->setEvent($container);
+        $this->extendManager();
+    }
 
-        // event dispatcher 设置
-        $eventDispatcher = new Dispatcher();
-        $this->capsule->setEventDispatcher($eventDispatcher);
-        $container['eloquent_event_dispatcher'] = $eventDispatcher;
-
-        // 扩展
+    /**
+     * 扩展
+     */
+    protected function extendManager()
+    {
         $connFactory = new ConnectionFactory($this->capsule->getContainer());
         $this
             ->capsule
             ->getDatabaseManager()
-            ->extend('mysql', function (array $config, $name = null) use ($connFactory) {
+            ->extend('mysql', function (array $config, $name) use ($connFactory) {
                 return $connFactory->make($config, $name);
             });
         $this
             ->capsule
             ->getDatabaseManager()
-            ->extend('sqlite', function (array $config, $name = null) use ($connFactory) {
+            ->extend('sqlite', function (array $config, $name) use ($connFactory) {
                 return $connFactory->make($config, $name);
             });
+    }
+
+    /**
+     * event dispatcher 设置
+     *
+     * @param Container $container
+     */
+    protected function setEvent(Container $container)
+    {
+        $eventDispatcher = new Dispatcher();
+        $this->capsule->setEventDispatcher($eventDispatcher);
+        $container['eloquent_event_dispatcher'] = $eventDispatcher;
+    }
+
+    /**
+     * 分页设置
+     *
+     * @param Container $container
+     */
+    protected function setPageResolver(Container $container)
+    {
+        LengthAwarePaginator::currentPageResolver(function ($pageName) use ($container) {
+            return (int)Arr::get(array_merge($_GET, $_POST), $pageName, 1);
+        });
     }
 
     protected function addConnection($dbName, $dbConfig)
