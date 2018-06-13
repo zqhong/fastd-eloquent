@@ -33,11 +33,11 @@ class TestCase extends BaseTestCase
         Manager::schema()->dropIfExists('posts');
         Manager::schema()->create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('author');
-            $table->string('title');
+            $table->string('author', 255);
+            $table->string('title', 255);
             $table->text('content');
-            $table->integer('created_at');
-            $table->integer('updated_at');
+            $table->integer('created_at', false, true);
+            $table->integer('updated_at', false, true);
         });
     }
 
