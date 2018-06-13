@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Zqhong\FastdEloquent\Database;
 
-use Illuminate\Database\SQLiteConnection as DefaultMySQLConn;
+use Illuminate\Database\SQLiteConnection as BaseMySQLConn;
 use PDO;
 
-class ZqhongSQLiteConn extends DefaultMySQLConn
+class SQLiteConnection extends BaseMySQLConn
 {
     /**
      * Bind values to their parameters in the given statement.
