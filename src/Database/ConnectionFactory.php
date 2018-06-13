@@ -19,12 +19,12 @@ class ConnectionFactory extends DefaultFactory
         switch ($driver) {
             case 'mysql':
                 // 备注：这里将 MySQL 连接重写
-                return new ZqhongMySQLConn($connection, $database, $prefix, $config);
+                return new MySQLConnection($connection, $database, $prefix, $config);
             case 'pgsql':
                 return new PostgresConnection($connection, $database, $prefix, $config);
             case 'sqlite':
                 // 备注：这里将 SQLite 连接重写
-                return new ZqhongSQLiteConn($connection, $database, $prefix, $config);
+                return new SQLiteConnection($connection, $database, $prefix, $config);
             case 'sqlsrv':
                 return new SqlServerConnection($connection, $database, $prefix, $config);
         }

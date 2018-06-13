@@ -8,7 +8,6 @@ use Illuminate\Database\Capsule\Manager;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Zqhong\FastdEloquent\Database\ConnectionFactory;
 
 /**
@@ -33,10 +32,9 @@ class EloquentServiceProvider implements ServiceProviderInterface
         $this->capsule = new Manager();
 
         $dbConfig = $container->get('config')->get('database', []);
-        Collection::make($dbConfig)
-            ->each(function ($config, $dbName) {
-                $this->addConnection($dbName, $config);
-            });
+        foreach ($dbConfig as $dbName => $config) {
+            $this->addConnection($dbName, $config);
+        }
 
         $this->capsule->setAsGlobal();
         $this->capsule->bootEloquent();
@@ -91,17 +89,25 @@ class EloquentServiceProvider implements ServiceProviderInterface
 
     protected function addConnection($dbName, $dbConfig)
     {
-        $eloquentSettings = [
-            'driver' => Arr::get($dbConfig, 'adapter', 'mysql'),
-            'host' => Arr::get($dbConfig, 'host', '127.0.0.1'),
-            'database' => Arr::get($dbConfig, 'name', ''),
-            'username' => Arr::get($dbConfig, 'user', 'root'),
-            'password' => Arr::get($dbConfig, 'pass', 'root'),
+        $setting = [
+            'driver' => Arr::get($dbConfig, 'adapter'),
+            'host' => Arr::get($dbConfig, 'host'),
+            'database' => Arr::get($dbConfig, 'name'),
+            'username' => Arr::get($dbConfig, 'user'),
+            'password' => Arr::get($dbConfig, 'pass'),
             'charset' => Arr::get($dbConfig, 'charset', 'utf8'),
             'collation' => Arr::get($dbConfig, 'collation', 'utf8_general_ci'),
             'prefix' => Arr::get($dbConfig, 'prefix', ''),
+            // PDO options
+            'options' => Arr::get($dbConfig, 'options', []),
         ];
 
-        $this->capsule->addConnection($eloquentSettings, $dbName);
+        if ($setting['driver'] == 'mysql') {
+            $setting['timezone'] = Arr::get($dbConfig, 'timezone');
+            $setting['modes'] = Arr::get($dbConfig, 'modes');
+            $setting['strict'] = Arr::get($dbConfig, 'strict');
+        }
+
+        $this->capsule->addConnection($setting, $dbName);
     }
 }

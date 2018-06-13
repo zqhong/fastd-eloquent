@@ -2,15 +2,13 @@
 
 namespace Zqhong\FastdEloquent\Database;
 
-use Illuminate\Database\MySqlConnection as DefaultMySQLConn;
+use Illuminate\Database\MySqlConnection as BaseMySQLConn;
 use PDO;
 
 /**
- * 备注：添加前缀（Zqhong），便于区分默认连接和自定义连接
- *
  * @package Zqhong\FastdEloquent
  */
-class ZqhongMySQLConn extends DefaultMySQLConn
+class MySQLConnection extends BaseMySQLConn
 {
     /**
      * Bind values to their parameters in the given statement.
