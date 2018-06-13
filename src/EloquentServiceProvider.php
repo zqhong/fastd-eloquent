@@ -2,13 +2,13 @@
 
 namespace Zqhong\FastdEloquent;
 
-use FastD\Config\Config;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Zqhong\FastdEloquent\Database\ConnectionFactory;
 
 /**
@@ -30,15 +30,13 @@ class EloquentServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        /** @var Config $config */
-        $config = $container->get('config');
-        $dbNames = array_keys($config->get('database', []));
         $this->capsule = new Manager();
 
-        foreach ($dbNames as $dbName) {
-            $dbConfig = $config->get(sprintf('database.%s', $dbName), []);
-            $this->addConnection($dbName, $dbConfig);
-        }
+        $dbConfig = $container->get('config')->get('database', []);
+        Collection::make($dbConfig)
+            ->each(function ($config, $dbName) {
+                $this->addConnection($dbName, $config);
+            });
 
         $this->capsule->setAsGlobal();
         $this->capsule->bootEloquent();
@@ -55,18 +53,16 @@ class EloquentServiceProvider implements ServiceProviderInterface
     protected function extendManager()
     {
         $connFactory = new ConnectionFactory($this->capsule->getContainer());
-        $this
-            ->capsule
-            ->getDatabaseManager()
-            ->extend('mysql', function (array $config, $name) use ($connFactory) {
-                return $connFactory->make($config, $name);
-            });
-        $this
-            ->capsule
-            ->getDatabaseManager()
-            ->extend('sqlite', function (array $config, $name) use ($connFactory) {
-                return $connFactory->make($config, $name);
-            });
+        $drivers = ['mysql', 'sqlite'];
+
+        foreach ($drivers as $driver) {
+            $this
+                ->capsule
+                ->getDatabaseManager()
+                ->extend($driver, function (array $config, $name) use ($connFactory) {
+                    return $connFactory->make($config, $name);
+                });
+        }
     }
 
     /**

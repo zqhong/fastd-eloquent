@@ -8,6 +8,13 @@ use PDO;
 
 class ZqhongSQLiteConn extends DefaultMySQLConn
 {
+    /**
+     * Bind values to their parameters in the given statement.
+     *
+     * @param  \PDOStatement $statement
+     * @param  array $bindings
+     * @return void
+     */
     public function bindValues($statement, $bindings)
     {
         foreach ($bindings as $key => $value) {
