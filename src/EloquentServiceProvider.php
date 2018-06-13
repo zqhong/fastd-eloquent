@@ -90,8 +90,8 @@ class EloquentServiceProvider implements ServiceProviderInterface
     protected function addConnection($dbName, $dbConfig)
     {
         $setting = [
-            'driver' => Arr::get($dbConfig, 'adapter'),
-            'host' => Arr::get($dbConfig, 'host'),
+            'driver' => Arr::get($dbConfig, 'adapter', 'mysql'),
+            'host' => Arr::get($dbConfig, 'host', '127.0.0.1'),
             'database' => Arr::get($dbConfig, 'name'),
             'username' => Arr::get($dbConfig, 'user'),
             'password' => Arr::get($dbConfig, 'pass'),
