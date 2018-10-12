@@ -92,6 +92,7 @@ class EloquentServiceProvider implements ServiceProviderInterface
         $setting = [
             'driver' => Arr::get($dbConfig, 'adapter', 'mysql'),
             'host' => Arr::get($dbConfig, 'host', '127.0.0.1'),
+            'port' => Arr::get($dbConfig, 'port', 3306),
             'database' => Arr::get($dbConfig, 'name'),
             'username' => Arr::get($dbConfig, 'user'),
             'password' => Arr::get($dbConfig, 'pass'),
