@@ -25,7 +25,6 @@
     "illuminate/pagination": "^5.4",
     "illuminate/support": "^5.4",
     "fastd/container": "^3.0",
-    "fastd/config": "^3.0",
     "illuminate/events": "^5.4",
     "doctrine/dbal": "^2.5"
   },
