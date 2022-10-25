@@ -21,12 +21,14 @@
     }
   },
   "require": {
-    "illuminate/database": "^5.4",
-    "illuminate/pagination": "^5.4",
+    "php": "^7.2.5|^8.0",
+    "ext-json": "*",
+    "illuminate/database": "^6.20",
+    "illuminate/pagination": "^6.20",
     "illuminate/support": "^5.4",
     "fastd/container": "^3.0",
     "fastd/config": "^3.0",
-    "illuminate/events": "^5.4",
+    "illuminate/events": "^6.20",
     "doctrine/dbal": "^2.5"
   },
   "require-dev": {
