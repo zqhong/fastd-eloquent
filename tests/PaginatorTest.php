@@ -10,7 +10,7 @@ class PaginatorTest extends TestCase
 {
     protected $maxId = 19;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

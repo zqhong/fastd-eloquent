@@ -10,7 +10,7 @@ use Zqhong\FastdEloquent\EloquentServiceProvider;
 
 class TestCase extends BaseTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $app = new Application();
 
@@ -41,7 +41,7 @@ class TestCase extends BaseTestCase
         });
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Manager::schema()->dropIfExists('posts');
         Manager::connection()->disconnect();
